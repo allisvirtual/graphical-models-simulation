@@ -1,41 +1,39 @@
 """
-Custom complex DAG
+Student SAT and letter distribution
 """
 
 import numpy as np
-
-from common import N, bernoulli, dependence
-
-talent = bernoulli(0.2)
-practice = bernoulli(np.where(talent == 1, 0.8, 0.2))
+from common import N, bernoulli, dependence, rng
 
 
-p_skill = np.zeros(N)
-p_skill[(talent == 1) & (practice == 1)] = 0.99
-p_skill[(talent == 1) & (practice == 0)] = 0.3
-p_skill[(talent == 0) & (practice == 1)] = 0.5
-p_skill[(talent == 0) & (practice == 0)] = 0.05
+difficulty = bernoulli(0.4)
+intelligence = bernoulli(0.3)
 
-skill = bernoulli(p_skill)
+p_grade = np.zeros((N, 3))
 
-selection = bernoulli(np.where(skill == 1, 0.7, 0.1))
+p_grade[(difficulty == 1) & (intelligence == 1)] = [0.5, 0.3, 0.2]
+p_grade[(difficulty == 1) & (intelligence == 0)] = [0.05, 0.25, 0.7]
+p_grade[(difficulty == 0) & (intelligence == 1)] = [0.9, 0.08, 0.02]
+p_grade[(difficulty == 0) & (intelligence == 0)] = [0.3, 0.4, 0.3]
 
-p_result = np.zeros(N)
-p_result[(selection == 1) & (skill == 1)] = 0.9
-p_result[(selection == 1) & (skill == 0)] = 0.7
-p_result[(selection == 0) & (skill == 1)] = 0.3
-p_result[(selection == 0) & (skill == 0)] = 0.1
+grade = np.array([
+    rng.choice(3, p=probabilities)
+    for probabilities in p_grade
+])
 
-result = bernoulli(p_result)
+SAT = bernoulli(np.where(intelligence == 1, 0.8, 0.05))
 
-print("Custom DAG Skill collider")
-dependence(talent, practice, skill, ("talent", "practice",  "skill"))
+p_letter = np.zeros(N)
 
-print("Custom DAG Skill fork")
-dependence(selection, skill, result, ("skill", "selection", "result"))
+p_letter[grade == 0] = 0.9
+p_letter[grade == 1] = 0.6
+p_letter[grade == 2] = 0.01
 
-print("Custom DAG Result collider")
-dependence(skill, selection, result, ("skill", "selection", "result"))
+letter = bernoulli(p_letter)
 
-print("Custom DAG Ancestral sampling")
-dependence(talent, skill, result, ("talent", "skill", "result"))
+print("Student DAG")
+dependence(difficulty, intelligence, letter, ("difficulty", "intelligence", "letter"))
+
+print("SAT + difficulty -> letter")
+dependence(SAT, difficulty, letter, ("SAT", "difficulty", "letter"))
+
