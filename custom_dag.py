@@ -4,7 +4,7 @@ Custom complex DAG
 
 import numpy as np
 
-from common import N, bernoulli, dependence
+from common import N, bernoulli, dependence, descendant, xtheny
 
 talent = bernoulli(0.2)
 practice = bernoulli(np.where(talent == 1, 0.8, 0.2))
@@ -39,3 +39,12 @@ dependence(skill, selection, result, ("skill", "selection", "result"))
 
 print("Custom DAG Ancestral sampling")
 dependence(talent, skill, result, ("talent", "skill", "result"))
+
+print("Custom DAG descendants")
+descendant(practice, "practice")
+descendant(result, "result")
+descendant(skill, "skill")
+descendant(selection, "selection")
+xtheny(result, skill, ("result", "skill"))
+xtheny(result, talent, ("result", "talent"))
+xtheny(skill, talent, ("skill", "talent"))

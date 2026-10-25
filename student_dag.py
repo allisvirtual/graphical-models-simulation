@@ -3,7 +3,7 @@ Student SAT and letter distribution
 """
 
 import numpy as np
-from common import N, bernoulli, dependence, rng
+from common import N, bernoulli, dependence, rng, xtheny, descendant
 
 
 difficulty = bernoulli(0.4)
@@ -37,3 +37,4 @@ dependence(difficulty, intelligence, letter, ("difficulty", "intelligence", "let
 print("SAT + difficulty -> letter")
 dependence(SAT, difficulty, letter, ("SAT", "difficulty", "letter"))
 
+xtheny(letter, difficulty, ("letter", "difficulty"))

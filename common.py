@@ -28,3 +28,18 @@ def dependence(a, c, b, names):
         mask = b == v
         line(f"only {B}={v}", a[mask], c[mask])
     print()
+
+def xtheny(a, b, names):
+    """Print A's values comnditioned on B"""
+    A, B = names
+    print(f"  {A} given {B}=1 OR 0")
+    for v in (0, 1):
+        mask = b == v
+        mean = a[mask].mean()
+        print(f"  {A} P({A}=1|{B}={v})={mean:.3f}")
+
+def descendant(a, name):
+    """Print the stats of descendant"""
+    A = name
+    mean = a.mean()
+    print(f"  {name} P({A}=1)={mean:.3f}")
