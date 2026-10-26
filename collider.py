@@ -1,8 +1,4 @@
-"""COLLIDER:  tech -> hired <- comm,  and the descendant  hired -> directory
-
-Technical and communication skill are unrelated in the applicant pool.
-The company hires on either, so 'hired' is a common effect of both.
-"""
+"""COLLIDER:  tech -> hired <- comm,  and the descendant  hired -> directory"""
 
 import numpy as np
 

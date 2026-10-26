@@ -1,8 +1,4 @@
-"""CHAIN:  deploy -> bug -> tickets
-
-A deploy can introduce a bug that causes an increase in support tickets.
-Tickets depend on the bug and never on the deploy.
-"""
+"""CHAIN:  deploy -> bug -> tickets"""
 
 import numpy as np
 

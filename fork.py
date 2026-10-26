@@ -1,8 +1,4 @@
-"""FORK:  slow <- load -> error
-
-High traffic makes responses slow and makes requests fail.
-Slowness does not cause errors - they only share a parent.
-"""
+"""FORK:  slow <- load -> error"""
 
 import numpy as np
 
